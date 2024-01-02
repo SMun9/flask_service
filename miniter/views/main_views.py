@@ -19,8 +19,8 @@ def ping():
 @bp.route("/sign-up", methods=["POST"])
 def sign_up():
     new_user = request.json
-    new_user["id"] = app.id_count
-    app.id_count = app.id_count + 1
+    new_user["id"] = id_count
+    id_count = id_count + 1
     
     return jsonify(new_user)
     
