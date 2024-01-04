@@ -51,8 +51,6 @@ def tweet():
     if len(tweet) > 300:
         return "tweet이 300자를 초과했습니다", 400
     
-    
-    
     tweet_data = Tweets(user_id=user_tweet["id"], tweet=tweet)
     db.session.add(tweet_data)
     db.session.commit()
