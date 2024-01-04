@@ -1,4 +1,6 @@
 from flask import Blueprint, jsonify, request
+from miniter import db
+from miniter.models import Users
 
 bp = Blueprint("main", __name__, url_prefix='/')
 
@@ -19,10 +21,22 @@ def ping():
 @bp.route("/sign-up", methods=["POST"])
 def sign_up():
     new_user = request.json
-    new_user["id"] = id_count
-    id_count = id_count + 1
+    user  = Users(name=new_user["name"],
+                  email=new_user["email"],
+                  hashed_password=new_user["password"],
+                  profile=new_user["profile"])
     
-    return jsonify(new_user)
+    db.session.add(user)
+    db.session.commit()
+    
+    created_user = {
+        "id" : user.id,
+        "name": user.name,
+        "email": user.email,
+        "profile": user.profile,
+    } if user else None
+    
+    return jsonify(created_user)
     
     
 
